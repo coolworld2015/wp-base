@@ -1,38 +1,50 @@
 routesConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 function routesConfig($stateProvider, $urlRouterProvider) {
 	
-	resolveHerokuItems.$inject = ['$http', '$q'];
-	function resolveHerokuItems($http, $q) {
-		let url = 'http://ui-base.herokuapp.com/api/items/get';
-		return $http.get(url)
+	resolveHerokuItems.$inject = ['$rootScope', '$http', '$q'];
+	function resolveHerokuItems($rootScope, $http, $q) {
+		var url = $rootScope.myConfig.webUrl + 'api/items/get';
+		return $http.get(url,
+			{
+				headers: {'Authorization': $rootScope.access_token}
+			})
 			.then((result) => {
-				return result.data;
+				return result.data.sort(sort);
 			})
 			.catch((reject) => {
 				return $q.reject(reject);
 			});
 	}		
 	
-	resolveHerokuUsers.$inject = ['$http', '$q'];
-	function resolveHerokuUsers($http, $q) {
-		let url = 'http://ui-base.herokuapp.com/api/users/get';
-		return $http.get(url)
+	resolveHerokuUsers.$inject = ['$rootScope', '$http', '$q'];
+	function resolveHerokuUsers($rootScope, $http, $q) {
+		var url = $rootScope.myConfig.webUrl + 'api/users/get';
+		return $http.get(url,
+			{
+				headers: {'Authorization': $rootScope.access_token}
+			})
 			.then((result) => {
-				return result.data;
+				return result.data.sort(sort);
 			})
 			.catch((reject) => {
 				return $q.reject(reject);
 			});
 	}
-
-	$urlRouterProvider.otherwise('/home');	
 	
-	$stateProvider
-		.state('home', {
-			url: '/home',
-			template: '<header-component title="Home"></header-component>'
-		 })	
-		 
+	function sort(a, b) {
+		var nameA = a.name, nameB = b.name;
+		if (nameA < nameB) {
+			return -1
+		}
+		if (nameA > nameB) {
+			return 1
+		}
+		return 0;
+	}
+	
+	$urlRouterProvider.otherwise('/login');	
+	
+	$stateProvider 
 		.state('items', {
 			url: '/items',
 			template: '<header-component title="Items"></header-component>' + 
@@ -49,6 +61,12 @@ function routesConfig($stateProvider, $urlRouterProvider) {
 			resolve: {
 				users: resolveHerokuUsers
 			}
+		 })			
+		 
+		 .state('login', {
+			url: '/login',
+			template: '<header-component title="Login"></header-component>' + 
+					  '<login-component></login-component>'
 		 })			 
 }
 
