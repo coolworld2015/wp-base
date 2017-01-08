@@ -1,8 +1,8 @@
 routesConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 function routesConfig($stateProvider, $urlRouterProvider) {
 	
-	resolveHerokuClients.$inject = ['$http', '$q'];
-	function resolveHerokuClients($http, $q) {
+	resolveHerokuItems.$inject = ['$http', '$q'];
+	function resolveHerokuItems($http, $q) {
 		let url = 'http://ui-base.herokuapp.com/api/items/get';
 		return $http.get(url)
 			.then((result) => {
@@ -13,9 +13,9 @@ function routesConfig($stateProvider, $urlRouterProvider) {
 			});
 	}		
 	
-	resolveHerokuGoods.$inject = ['$http', '$q'];
-	function resolveHerokuGoods($http, $q) {
-		let url = 'http://ui-warehouse.herokuapp.com/api/goods/get';
+	resolveHerokuUsers.$inject = ['$http', '$q'];
+	function resolveHerokuUsers($http, $q) {
+		let url = 'http://ui-base.herokuapp.com/api/users/get';
 		return $http.get(url)
 			.then((result) => {
 				return result.data;
@@ -33,21 +33,21 @@ function routesConfig($stateProvider, $urlRouterProvider) {
 			template: '<header-component title="Home"></header-component>'
 		 })	
 		 
-		.state('clients', {
-			url: '/clients',
+		.state('items', {
+			url: '/items',
 			template: '<header-component title="Items"></header-component>' + 
 					  '<items-component items="$resolve.items"></items-component>',
 			resolve: {
-				items: resolveHerokuClients
+				items: resolveHerokuItems
 			}
 		 })		 	
 		 
-		.state('goods', {
-			url: '/goods',
-			template: '<header-component title="Goods"></header-component>' + 
-					  '<goods-component goods="$resolve.goods"></goods-component>',
+		.state('users', {
+			url: '/users',
+			template: '<header-component title="Users"></header-component>' + 
+					  '<users-component users="$resolve.users"></users-component>',
 			resolve: {
-				goods: resolveHerokuGoods
+				users: resolveHerokuUsers
 			}
 		 })			 
 }

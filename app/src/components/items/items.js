@@ -1,4 +1,4 @@
-import '../../../css/clients.css';
+import '../../../css/items.css';
 
 module.exports = {
 	templateUrl: require('./items.html'),

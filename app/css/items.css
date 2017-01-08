@@ -1,0 +1,8 @@
+.items {
+  background: black;
+  color: white;
+}
+.items-header {
+    text-align: center;
+    margin-bottom: 10px;
+}

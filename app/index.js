@@ -6,9 +6,11 @@ import routesConfig from './src/app/routes'
 
 import HeaderComponent from './src/components/header/header';
 import ItemsComponent from './src/components/items/items';
+import UsersComponent from './src/components/users/users';
  
 angular
 	.module('app', [uiRouter])
 	.component('headerComponent', HeaderComponent)
 	.component('itemsComponent', ItemsComponent)
+	.component('usersComponent', UsersComponent)
 	.config(routesConfig);
