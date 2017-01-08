@@ -2,7 +2,6 @@ import '../../../css/login.css';
 
 module.exports = {
 	templateUrl: require('./login.html'),
-	bindings: {title: '@'}, 
 	controllerAs: 'vm',			
 	controller: Ctrl
 }
@@ -19,6 +18,7 @@ function Ctrl($http, $state, $rootScope) {
 	init();
 	
 	function init() {
+		vm.title = 'Login';
 		vm.name = '1';
 		vm.pass = '1';
 	}
@@ -30,7 +30,8 @@ function Ctrl($http, $state, $rootScope) {
 	
 	var item = {
 		"name": vm.name,
-		"pass": vm.pass
+		"pass": vm.pass,
+		"description": navigator.userAgent
 	};
 	
 	$http.post(url + 'api/login', item)
@@ -38,7 +39,8 @@ function Ctrl($http, $state, $rootScope) {
 				$rootScope.loading = false;
 				$rootScope.access_token = results.data;
 				console.log(results);
-				$state.go('users');
+				$rootScope.currentUser = vm.name;
+				$state.go('audit');
 			})
 			.catch(function (error) {
 				$rootScope.loading = false;

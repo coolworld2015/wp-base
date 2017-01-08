@@ -31,6 +31,21 @@ function routesConfig($stateProvider, $urlRouterProvider) {
 			});
 	}
 	
+	resolveHerokuAudit.$inject = ['$rootScope', '$http', '$q'];
+	function resolveHerokuAudit($rootScope, $http, $q) {
+		var url = $rootScope.myConfig.webUrl + 'api/audit/get';
+		return $http.get(url,
+			{
+				headers: {'Authorization': $rootScope.access_token}
+			})
+			.then((result) => {
+				return result.data;
+			})
+			.catch((reject) => {
+				return $q.reject(reject);
+			});
+	}
+	
 	function sort(a, b) {
 		var nameA = a.name, nameB = b.name;
 		if (nameA < nameB) {
@@ -45,29 +60,50 @@ function routesConfig($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/login');	
 	
 	$stateProvider 
+		.state('login', {
+			url: '/login',
+			data: {
+				requireLogin: false
+			},			
+			template: '<header-component title="Login"></header-component>' + 
+					  '<login-component></login-component>'
+		})	
+		 
 		.state('items', {
 			url: '/items',
+			data: {
+				requireLogin: true
+			},
 			template: '<header-component title="Items"></header-component>' + 
 					  '<items-component items="$resolve.items"></items-component>',
 			resolve: {
 				items: resolveHerokuItems
 			}
-		 })		 	
+		})		 	
 		 
 		.state('users', {
 			url: '/users',
+			data: {
+				requireLogin: true
+			},			
 			template: '<header-component title="Users"></header-component>' + 
 					  '<users-component users="$resolve.users"></users-component>',
 			resolve: {
 				users: resolveHerokuUsers
 			}
-		 })			
+		})			
 		 
-		 .state('login', {
-			url: '/login',
-			template: '<header-component title="Login"></header-component>' + 
-					  '<login-component></login-component>'
-		 })			 
+		.state('audit', {
+			url: '/audit',
+			data: {
+				requireLogin: true
+			},			
+			template: '<header-component title="Audit"></header-component>' + 
+					  '<audit-component audits="$resolve.audits"></audit-component>',
+			resolve: {
+				audits: resolveHerokuAudit
+			}
+		})			 
 }
 
 export default routesConfig;
