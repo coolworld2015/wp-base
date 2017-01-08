@@ -1,0 +1,8 @@
+.clients {
+  background: black;
+  color: white;
+}
+.clients-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
