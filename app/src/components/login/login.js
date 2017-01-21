@@ -24,28 +24,28 @@ function Ctrl($http, $state, $rootScope) {
 	}
 	
 	function onLogin() {
-	$rootScope.loading = true;
-	$rootScope.error = false;
-	var url = 'http://jwt-base.herokuapp.com/';
-	
-	var item = {
-		"name": vm.name,
-		"pass": vm.pass,
-		"description": navigator.userAgent
-	};
-	
-	$http.post(url + 'api/login', item)
-			.then(function (results) {
-				$rootScope.loading = false;
-				$rootScope.access_token = results.data;
-				console.log(results);
-				$rootScope.currentUser = vm.name;
-				$state.go('audit');
-			})
-			.catch(function (error) {
-				$rootScope.loading = false;
-				$rootScope.error = true;
-				console.log(error);
-			});
-}
+		$rootScope.loading = true;
+		$rootScope.error = false;
+		var url = 'http://jwt-base.herokuapp.com/';
+		
+		var item = {
+			"name": vm.name,
+			"pass": vm.pass,
+			"description": navigator.userAgent
+		};
+		
+		$http.post(url + 'api/login', item)
+				.then(function (results) {
+					$rootScope.loading = false;
+					$rootScope.access_token = results.data;
+					console.log(results);
+					$rootScope.currentUser = vm.name;
+					$state.go('audit');
+				})
+				.catch(function (error) {
+					$rootScope.loading = false;
+					$rootScope.error = true;
+					console.log(error);
+				});
+	}
 }
