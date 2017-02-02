@@ -103,7 +103,15 @@ function routesConfig($stateProvider, $urlRouterProvider) {
 			resolve: {
 				audits: resolveHerokuAudit
 			}
-		})			 
+		})		
+		
+		.state('menu', {
+			url: '/menu',
+			data: {
+				requireLogin: false
+			},			
+			template: '<h1> Menu </h1>'
+		})			
 }
 
 export default routesConfig;

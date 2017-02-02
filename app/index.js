@@ -4,6 +4,7 @@ import './index.html';
 import './css/index.css';
 import routesConfig from './src/app/routes'
 import init from './src/app/init'
+import redirectOn403 from './src/app/redirectOn403'
 import runHandler from './src/app/runHandler'
 
 import HeaderComponent from './src/components/header/header';
@@ -20,5 +21,6 @@ angular
 	.component('usersComponent', UsersComponent)
 	.component('auditComponent', AuditComponent)
 	.config(routesConfig)
+	.config(redirectOn403)
 	.run(runHandler)
 	.run(init)
